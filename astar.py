@@ -7,6 +7,7 @@ Gp = 1
 
 MAP_B = 200
 MAP_H = 600
+TURTLE_SIZE = 2
 
 ind = [[0,1],[1,0],[-1,0],[0,-1], [1,1], [-1,1], [1,-1], [-1,-1]]
 
@@ -46,24 +47,34 @@ class Astar:
             node.fcost = 9999999999999
         return node.fcost
     
+    def make_map(self,obs_xy):
+        self.MAP = np.zeros(MAP_B,MAP_H)
+        for xy in obs_xy:
+            for i in range(-TURTLE_SIZE,TURTLE_SIZE):
+                for j in range(-TURTLE_SIZE,TURTLE_SIZE):
+                    xd = xy[0] + i
+                    yd = xy[1] + j
+                    if xd >= 0 and yd >= 0:
+                        self.MAP[xd,yd] = -1
+    
     def GetNewNodes(self):
         for i in ind:
-            
-            self.open_list.append(Node([xd,yd],dtheta,self.curNode))
-            self.curNode.cnode.append(Node([xd,yd],dtheta,self.curNode))
-            
-    def is_collision(self, node, obs_xy):
-        dis = [((node.x-p[0])**2+(node.y-p[1])**2)**0.5 for p in self.obs]
-    
+            xd = self.curNode.x - i[0]  
+            yd = self.curNode.y - i[1]
+            if xd >=0 and yd >= 0 and self.MAP[xd][yd] == 0:
+                self.MAP[xd][yd] = 2
+                self.open_list.append(Node([xd,yd], self.curNode))
+                self.curNode.cnode.append(Node([xd,yd],self.curNode))
+        
     def generate_path(self, heading, obs_xy):
         self.obs = []
-        self.line = self.cur_left_line + self.cur_right_line
         self.obs.extend(obs_xy)
+        self.make_map(obs_xy)
 
         self.open_list = []
         self.close_list = []
         
-        self.xy_start = [xi, yi]
+        self.xy_start = [MAP_B/2, 0]
         self.heading = heading
         
         self.curNode = Node(self.xy_start, self.heading)
