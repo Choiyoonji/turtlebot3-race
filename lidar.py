@@ -9,7 +9,7 @@ class lidar:
         self.obs_xy = np.empty((1, 3))
         self.obs_xy_yd = np.empty((1, 3))
 
-    def tf_tm(self, scan, x, y, heading) :
+    def tf_tm(self, scan, heading, x=0.0, y=0.0):
         self.obs_xy = np.empty((1, 3))
         resolution = 1
         T = [[cos(heading), -sin(heading), x], \
