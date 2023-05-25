@@ -1,0 +1,22 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/choiyoonji/ros2_ws/install/pypubsub/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/motor_control/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/lds_sub/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/imu_pubsub/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/choi_srvcli/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/choi_interfaces/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/choi_interface/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/choiyoonji/ros2_ws/install/pypubsub/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/motor_control/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/lds_sub/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/imu_pubsub/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/choi_srvcli/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/choi_interfaces/lib/python3.8/site-packages",
+        "/home/choiyoonji/ros2_ws/install/choi_interface/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ]
+}

@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/choiyoonji/ros2_ws/install/choi_interfaces/include/**",
+        "/opt/ros/foxy/include/**",
+        "/home/choiyoonji/ros2_ws/src/choi_interfaces/include/**",
+        "/home/choiyoonji/ros2_ws/src/cpp_pubsub/include/**",
+        "/home/choiyoonji/ros2_ws/src/hls_lfcd_lds_driver/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
