@@ -8,6 +8,9 @@ from scipy.spatial import distance
 
 from geometry_msgs.msg import Twist
 
+import sys
+sys.path.append(r'/home/choiyoonji/ros2_ws/src/turtlebot3-race/turtle_race/turtle_race/')
+
 import astar
 import lidar
 
