@@ -5,8 +5,8 @@ from scipy.spatial import distance
 Hp = 1
 Gp = 1
 
-MAP_B = 20
-MAP_H = 60
+MAP_B = 200
+MAP_H = 600
 TURTLE_SIZE = 1
 
 ind = [[0,1],[1,0],[-1,0],[0,-1], [1,1], [-1,1], [1,-1], [-1,-1]]
