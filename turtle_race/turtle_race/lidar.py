@@ -28,6 +28,10 @@ class IMU_LIDAR(Node):
         quaternion = (msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w)
         euler = euler_from_quaternion(quaternion)
         self.yaw = euler[2]
+        if self.yaw > pi/2:
+            self.yaw %= (pi/2)
+        elif self.yaw < -pi/2:
+            self.yaw %= (-pi/2)
 
     def listener_callback_scan(self, msg):
         self.scan = msg.ranges

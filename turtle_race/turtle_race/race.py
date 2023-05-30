@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 
-from math import sin, cos, pi
+from math import sin, cos, pi, asin
 import numpy as np
 from scipy.spatial import distance
 
@@ -34,14 +34,26 @@ class race():
         Astar = astar.Astar()
         self.path = Astar.generate_path(obs)
     
-    def get_steer(self,obs):
+    def get_steer(self, obs, heading):
         self.get_path(obs)
+        
         start = self.path[-1]
         goal = self.path[-LD]
+        
+        dl = distance.euclidean(start,goal)
         dx = goal[0] - start[0]
         dy = goal[1] - start[1]
         
-        return dx/dy*W
+        theta = asin(dy/dl)
+        
+        if dx > 0:
+            theta = 90 - theta
+        elif dx < 0:
+            theta = -(90 - theta)
+        else:
+            theta = 0
+        
+        return (heading - theta) * W
 
 def main(args=None):
     rclpy.init(args=args)
@@ -52,7 +64,7 @@ def main(args=None):
     
     while rclpy.ok():
         rclpy.spin_once(sensor)
-        steer = Race.get_steer(sensor.obs_xy)
+        steer = Race.get_steer(sensor.obs_xy, sensor.heading)
         vel.linear.x = SPEED
         vel.angular.z = steer
         motor.pub(vel)
