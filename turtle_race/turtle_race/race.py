@@ -64,10 +64,13 @@ def main(args=None):
     
     while rclpy.ok():
         rclpy.spin_once(sensor)
-        steer = Race.get_steer(sensor.obs_xy, sensor.heading)
-        vel.linear.x = SPEED
-        vel.angular.z = steer
-        motor.pub(vel)
+        # steer = Race.get_steer(sensor.obs_xy, sensor.heading)
+        print(sensor.obs_xy)
+        print(sensor.yaw)
+        # print(steer)
+        # vel.linear.x = SPEED
+        # vel.angular.z = steer
+        # motor.pub(vel)
         
     vel.linear.x = 0.0
     vel.angular.z = 0.0

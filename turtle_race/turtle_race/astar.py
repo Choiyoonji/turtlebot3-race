@@ -1,12 +1,13 @@
 from math import sin, cos, pi
 import numpy as np
 from scipy.spatial import distance
+from collections import deque
 
 Hp = 1
 Gp = 1
 
-MAP_B = 200
-MAP_H = 600
+MAP_B = 20
+MAP_H = 20
 TURTLE_SIZE = 1
 
 ind = [[0,1],[1,0],[-1,0],[0,-1], [1,1], [-1,1], [1,-1], [-1,-1]]
@@ -29,6 +30,7 @@ class Astar:
         
         self.open_list = []
         self.close_list = []
+        self.goal = MAP_H - 1
         
     def calc_gcost(self, node):
         if node.pnode:
@@ -38,7 +40,7 @@ class Astar:
         return node.gcost
     
     def calc_hcost(self, node):
-        node.hcost = MAP_H - node.y
+        node.hcost = self.goal - node.y
         return node.hcost
     
     def calc_fcost(self, node):
@@ -51,20 +53,45 @@ class Astar:
         for xy in obs_xy:
             for i in range(-TURTLE_SIZE,TURTLE_SIZE):
                 for j in range(-TURTLE_SIZE,TURTLE_SIZE):
-                    xd = xy[0] + i
-                    yd = xy[1] + j
+                    xd = int(xy[0] + i)
+                    yd = int(xy[1] + j)
                     if MAP_B > xd >=0 and MAP_H > yd >= 0:
-                        # print(1)
                         self.MAP[xd,yd] = -1
+    
+    def decide_goal(self):
+        deq = deque([])
+        [i,j] = self.xy_start
+        self.MAP[i,j] = 5
+        MaxY = j
+        
+        for k in range(len(ind)):
+            deq.append([i+ind[k][0],j+ind[k][1]])
+        while True:
+            if len(deq) == 0:
+                break
+            p = deq.popleft()
+            x = p[0]
+            y = p[1]
+            
+            if x < 0 or y < 0 or x >= MAP_B or y >= MAP_H:
+                continue
+            if self.MAP[x,y] == 0:
+                self.MAP[x,y] = 5
+                if MaxY < y:
+                    MaxY = y
+                for k in range(len(ind)):
+                    deq.append([x+ind[k][0],y+ind[k][1]])
+                    
+        return MaxY
     
     def GetNewNodes(self):
         for i in ind:
             xd = self.curNode.x - i[0]  
             yd = self.curNode.y - i[1]
-            if MAP_B > xd >=0 and MAP_H > yd >= 0:
+            if MAP_B > xd >=0 and self.goal >= yd >= 0:
                 xd = int(xd)
                 yd = int(yd)
-                if not self.MAP[xd,yd]:
+                if self.MAP[xd,yd] == 5:
                     self.MAP[xd,yd] = 2
                     self.open_list.append(Node([xd,yd], self.curNode))
                     self.curNode.cnode.append(Node([xd,yd],self.curNode))
@@ -73,11 +100,11 @@ class Astar:
         self.obs = []
         self.obs.extend(obs_xy)
         self.make_map(obs_xy)
+        self.xy_start = [int(MAP_B/2), 0]
+        self.goal = self.decide_goal()
 
         self.open_list = []
         self.close_list = []
-        
-        self.xy_start = [MAP_B/2, 0]
         
         self.curNode = Node(self.xy_start)
         self.open_list.append(self.curNode)
@@ -87,15 +114,13 @@ class Astar:
             self.close_list.append(self.curNode)
             self.open_list.remove(self.curNode)
             
-            if self.curNode.y == MAP_H-1:
+            if self.curNode.y == self.goal:
                 break
             
             self.GetNewNodes()
             
             for n_node in self.open_list:
                 self.calc_fcost(n_node)
-            
-            # print(len(self.open_list),self.curNode.x,self.curNode.y)
                 
         return self.extracted_path()
 
@@ -115,10 +140,11 @@ class Astar:
 
 def main():
     astar = Astar()
-    obs = [[3,10],[4,10],[5,10],[7,10],[8,10],[9,10],[10,10]]
+    obs = [[1,10],[2,10],[3,10],[4,10],[5,10],[7,10],[8,10],[9,10],[10,10],[11,10],[12,10],[13,10],[14,10],[15,10],[16,10],[17,10],[18,10],[19,10],[0,10]]
     path = astar.generate_path(obs)
-    # ma = np.array(astar.MAP)
     np.set_printoptions(threshold=np.inf,linewidth=np.inf)
+    ma = np.array(astar.MAP)
+    print(ma)
     print(path)
 
 if __name__ == '__main__':
