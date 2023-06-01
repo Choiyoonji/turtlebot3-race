@@ -3,12 +3,15 @@ import numpy as np
 from scipy.spatial import distance
 from collections import deque
 
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
 Hp = 1
 Gp = 1
 
-MAP_B = 20
-MAP_H = 20
-TURTLE_SIZE = 1
+MAP_B = 300
+MAP_H = 600
+TURTLE_SIZE = 5
 
 ind = [[0,1],[1,0],[-1,0],[0,-1], [1,1], [-1,1], [1,-1], [-1,-1]]
 
@@ -56,6 +59,7 @@ class Astar:
                     xd = int(xy[0] + i)
                     yd = int(xy[1] + j)
                     if MAP_B > xd >=0 and MAP_H > yd >= 0:
+                        # print(xd,yd)
                         self.MAP[xd,yd] = -1
     
     def decide_goal(self):
@@ -98,10 +102,12 @@ class Astar:
         
     def generate_path(self, obs_xy):
         self.obs = []
+        obs_xy = np.delete(obs_xy,np.where(obs_xy[:,1]<0),0)
         self.obs.extend(obs_xy)
         self.make_map(obs_xy)
         self.xy_start = [int(MAP_B/2), 0]
         self.goal = self.decide_goal()
+        # print(self.goal)
 
         self.open_list = []
         self.close_list = []
